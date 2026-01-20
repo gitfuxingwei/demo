@@ -2,7 +2,10 @@ package org.example.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+<<<<<<< HEAD
 import org.example.dto.PageRequestDTO;
+=======
+>>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
 import org.example.pojo.User;
 
 import java.util.List;
@@ -44,6 +47,7 @@ public interface UserMapper {
      */
     List<User> selectUserByCondition(@Param("user") User user);
     /*
+<<<<<<< HEAD
     * 分页查询用户
      */
     List<User> selectUserByPage(@Param("pageRequest") PageRequestDTO pageRequest);
@@ -52,6 +56,8 @@ public interface UserMapper {
      */
     Long selectUserTotalCount();
     /*
+=======
+>>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
     * 批量删除用户
      */
     boolean deleteUsers(@Param("ids") List<Integer> ids);
@@ -63,6 +69,7 @@ public interface UserMapper {
     * 批量更新用户
      */
     int updateUsers(@Param("users") List<User> users);
+<<<<<<< HEAD
     
     /**
      * 根据用户名列表查询已存在的用户名
@@ -73,5 +80,7 @@ public interface UserMapper {
      * 根据手机号列表查询已存在的手机号
      */
     List<String> selectPhoneNumbers(@Param("phoneNumbers") List<String> phoneNumbers);
+=======
+>>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
 
 }
