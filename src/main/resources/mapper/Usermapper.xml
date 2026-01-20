@@ -188,7 +188,7 @@
         </foreach>
     </update>
 
-<<<<<<< HEAD
+
     <!-- 分页查询用户 -->
     <select id="selectUserByPage" parameterType="org.example.dto.PageRequestDTO" resultMap="UserResultMap">
         SELECT
@@ -235,6 +235,4 @@
         AND del_flag = '0'
     </select>
 
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
 </mapper>

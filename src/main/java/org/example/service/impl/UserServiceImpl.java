@@ -1,10 +1,9 @@
 package org.example.service.impl;
 
-<<<<<<< HEAD
+
 import org.example.dto.PageRequestDTO;
 import org.example.dto.PageResultDTO;
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
 import org.example.dto.PasswordUpdateDTO;
 import org.example.dto.UserDTO;
 import org.example.mapper.UserMapper;
@@ -16,15 +15,11 @@ import org.example.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-=======
-import java.util.List;
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
-import java.util.stream.Collectors;
+
 
 /**
  * 用户服务实现类
@@ -194,7 +189,7 @@ public class UserServiceImpl implements UserService {
         user.setUser_password(newPassword);
         return userMapper.updateUserById(user);
     }
-<<<<<<< HEAD
+
 
 
     @Override
@@ -305,6 +300,5 @@ public class UserServiceImpl implements UserService {
 
         return new ArrayList<>(allDuplicates);
     }
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
 }

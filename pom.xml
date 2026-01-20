@@ -86,14 +86,12 @@
       <version>8.0.33</version>
       <scope>runtime</scope>
     </dependency>
-<<<<<<< HEAD
       <dependency>
           <groupId>com.alibaba</groupId>
           <artifactId>easyexcel</artifactId>
           <version>3.3.4</version>
       </dependency>
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
   </dependencies>
 
   <build>
@@ -117,13 +115,10 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-<<<<<<< HEAD
+
           <source>16</source>
           <target>16</target>
-=======
-          <source>8</source>
-          <target>8</target>
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
           <annotationProcessorPaths>
             <path>
               <groupId>org.mapstruct</groupId>
@@ -143,7 +138,7 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
-<<<<<<< HEAD
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -152,8 +147,7 @@
           <mainClass>org.example.TestImportFunctionality</mainClass>
         </configuration>
       </plugin>
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
     </plugins>
   </build>
 

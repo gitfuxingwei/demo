@@ -1,9 +1,8 @@
 package org.example.vo;
 
-<<<<<<< HEAD
+
 import com.alibaba.excel.annotation.ExcelProperty;
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVO {
-<<<<<<< HEAD
     @ExcelProperty("用户ID")
     private Integer userId;
 
@@ -62,21 +60,4 @@ public class UserVO {
     @ExcelProperty("备注")
     private String remark;
 }
-=======
-    private Integer userId;
-    private Integer deptId;
-    private String userName;
-    private String nickName;
-    private String userType;
-    private String email;
-    private String phonenumber;
-    private String sex;                //0 男 1女
-    private String avatar;             //头像
-    private String status;             //0 正常 1 停用
-    private String loginIp;            //登录IP
-    private String loginDate;          //最后登录时间
-    private String createTime;         //创建时间
-    private String updateTime;         //更新时间
-    private String remark;             //备注
-}
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+

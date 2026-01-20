@@ -6,7 +6,7 @@ import org.example.mapper.UserMapperStruct;
 import org.example.pojo.User;
 import org.example.result.Result;
 import org.example.service.UserService;
-<<<<<<< HEAD
+
 import org.example.utils.ExcelUtils;
 import org.example.utils.UserDataListener;
 import org.example.vo.UserVO;
@@ -16,12 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-=======
-import org.example.vo.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
 import java.util.List;
 
 
@@ -127,11 +122,6 @@ public class UserController {
         }
     }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
     /**
      * 根据用户名更新用户密码
      * @param passwordUpdateDTO 密码更新请求对象
@@ -150,7 +140,6 @@ public class UserController {
             return Result.error(e.getMessage());
         }
     }
-<<<<<<< HEAD
 
     /**
      * 分页查询用户
@@ -262,6 +251,5 @@ public class UserController {
             return Result.error("导入失败");
         }
     }
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
 }

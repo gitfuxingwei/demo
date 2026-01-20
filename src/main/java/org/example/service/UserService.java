@@ -1,10 +1,9 @@
 package org.example.service;
 
-<<<<<<< HEAD
+
 import org.example.dto.PageRequestDTO;
 import org.example.dto.PageResultDTO;
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
 import org.example.dto.PasswordUpdateDTO;
 import org.example.dto.UserDTO;
 import org.example.vo.UserVO;
@@ -38,7 +37,6 @@ public interface UserService {
     List<UserVO> getAllUserVOs();
 
     UserVO getUserVOByUserName(String userName);
-<<<<<<< HEAD
 
     // 密码修改方法 - 使用DTO封装参数
     boolean updatePasswordByUsername(PasswordUpdateDTO passwordUpdateDTO);
@@ -55,9 +53,7 @@ public interface UserService {
     // 检查重复手机号
     List<String> checkPhoneNumbers(List<UserDTO> users);
 }
-=======
-    
-    // 密码修改方法 - 使用DTO封装参数
-    boolean updatePasswordByUsername(PasswordUpdateDTO passwordUpdateDTO);
-}
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
+
+
+
+

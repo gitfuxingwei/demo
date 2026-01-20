@@ -12,17 +12,10 @@ public class User {
      private Integer dept_id;
      private String user_name;
      private String nick_name;
-<<<<<<< HEAD
      private Integer user_type;         //0 系统用户 1 管理员 2 访客
      private String email;
      private String phonenumber;
      private Integer sex;                //0 男 1女
-=======
-     private String user_type;
-     private String email;
-     private String phonenumber;
-     private String sex;                //0 男 1女
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
      private String avatar;            //头像
      private String user_password;      //密码
      private String status;            //0 正常 1 停用

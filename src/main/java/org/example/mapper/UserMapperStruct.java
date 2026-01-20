@@ -102,8 +102,5 @@ public interface UserMapperStruct {
     List<UserVO> toVOList(List<User> userList);
 
     List<UserVO> toVOListFromDTO(List<UserDTO> userDTOList);
-<<<<<<< HEAD
 
-=======
->>>>>>> b6d44132eac700221db2fd8745278eb9753c5ee9
 }
