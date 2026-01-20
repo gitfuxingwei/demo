@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.UserMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="UserResultMap" type="org.example.pojo.User">
+        <id property="user_id" column="user_id"/>
+        <result property="dept_id" column="dept_id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="nick_name" column="nick_name"/>
+        <result property="user_type" column="user_type"/>
+        <result property="email" column="email"/>
+        <result property="phonenumber" column="phonenumber"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="user_password" column="user_password"/>
+        <result property="status" column="status"/>
+        <result property="del_flag" column="del_flag"/>
+        <result property="login_ip" column="login_ip"/>
+        <result property="login_date" column="login_date"/>
+        <result property="create_by" column="create_by"/>
+        <result property="create_time" column="create_time"/>
+        <result property="update_by" column="update_by"/>
+        <result property="update_time" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 根据ID查询用户 -->
+    <select id="selectUserById" parameterType="java.lang.Integer" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        WHERE user_id = #{id}
+        AND del_flag = '0'
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="selectAllUser" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        WHERE del_flag = '0'
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="selectUserByName" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        WHERE user_name = #{name}
+        AND del_flag = '0'
+        LIMIT 1
+    </select>
+
+    <!-- 根据用户名查询用户列表 -->
+    <select id="selectUserListByName" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        WHERE user_name = #{name}
+        AND del_flag = '0'
+    </select>
+
+    <!-- 根据条件查询用户 -->
+    <select id="selectUserByCondition" parameterType="org.example.pojo.User" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        <where>
+            <if test="user.user_id != null">
+                AND user_id = #{user.user_id}
+            </if>
+            <if test="user.dept_id != null">
+                AND dept_id = #{user.dept_id}
+            </if>
+            <if test="user.user_name != null and user.user_name != ''">
+                AND user_name LIKE CONCAT('%', #{user.user_name}, '%')
+            </if>
+            <if test="user.nick_name != null and user.nick_name != ''">
+                AND nick_name LIKE CONCAT('%', #{user.nick_name}, '%')
+            </if>
+            <if test="user.user_type != null and user.user_type != ''">
+                AND user_type = #{user.user_type}
+            </if>
+            <if test="user.email != null and user.email != ''">
+                AND email LIKE CONCAT('%', #{user.email}, '%')
+            </if>
+            <if test="user.phonenumber != null and user.phonenumber != ''">
+                AND phonenumber LIKE CONCAT('%', #{user.phonenumber}, '%')
+            </if>
+            <if test="user.sex != null and user.sex != ''">
+                AND sex = #{user.sex}
+            </if>
+            <if test="user.status != null and user.status != ''">
+                AND status = #{user.status}
+            </if>
+            AND del_flag = '0'
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 新增用户 -->
+    <insert id="insertUser" parameterType="org.example.pojo.User" useGeneratedKeys="true" keyProperty="user_id">
+        INSERT INTO user (
+            dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status,
+            del_flag, login_ip, login_date, create_by,
+            create_time, update_by, update_time, remark
+        ) VALUES (
+            #{user.dept_id}, #{user.user_name}, #{user.nick_name}, #{user.user_type}, #{user.email},
+            #{user.phonenumber}, #{user.sex}, #{user.avatar}, #{user.user_password}, #{user.status},
+            '0', #{user.login_ip}, #{user.login_date}, #{user.create_by},
+            #{user.create_time}, #{user.update_by}, #{user.update_time}, #{user.remark}
+        )
+    </insert>
+
+    <!-- 批量新增用户 -->
+    <insert id="insertUsers" parameterType="java.util.List">
+        INSERT INTO user (
+            dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status,
+            del_flag, login_ip, login_date, create_by,
+            create_time, update_by, update_time, remark
+        ) VALUES
+        <foreach collection="users" item="user" separator=",">
+            (
+                #{user.dept_id}, #{user.user_name}, #{user.nick_name}, #{user.user_type}, #{user.email},
+                #{user.phonenumber}, #{user.sex}, #{user.avatar}, #{user.user_password}, #{user.status},
+                '0', #{user.login_ip}, #{user.login_date}, #{user.create_by},
+                #{user.create_time}, #{user.update_by}, #{user.update_time}, #{user.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 更新用户 -->
+    <update id="updateUserById" parameterType="org.example.pojo.User">
+        UPDATE user
+        <set>
+            <if test="user.dept_id != null">dept_id = #{user.dept_id},</if>
+            <if test="user.user_name != null and user.user_name != ''">user_name = #{user.user_name},</if>
+            <if test="user.nick_name != null and user.nick_name != ''">nick_name = #{user.nick_name},</if>
+            <if test="user.user_type != null and user.user_type != ''">user_type = #{user.user_type},</if>
+            <if test="user.email != null and user.email != ''">email = #{user.email},</if>
+            <if test="user.phonenumber != null and user.phonenumber != ''">phonenumber = #{user.phonenumber},</if>
+            <if test="user.sex != null and user.sex != ''">sex = #{user.sex},</if>
+            <if test="user.avatar != null">avatar = #{user.avatar},</if>
+            <if test="user.user_password != null and user.user_password != ''">user_password = #{user.user_password},</if>
+            <if test="user.status != null and user.status != ''">status = #{user.status},</if>
+            <if test="user.login_ip != null">login_ip = #{user.login_ip},</if>
+            <if test="user.login_date != null">login_date = #{user.login_date},</if>
+            <if test="user.create_by != null">create_by = #{user.create_by},</if>
+            <if test="user.create_time != null">create_time = #{user.create_time},</if>
+            <if test="user.update_by != null">update_by = #{user.update_by},</if>
+            <if test="user.update_time != null">update_time = #{user.update_time},</if>
+            <if test="user.remark != null">remark = #{user.remark},</if>
+            update_time = NOW()
+        </set>
+        WHERE user_id = #{user.user_id}
+    </update>
+
+    <!-- 根据ID删除用户（逻辑删除） -->
+    <update id="deleteUserById" parameterType="java.lang.Integer">
+        UPDATE user
+        SET del_flag = '1'
+        WHERE user_id = #{id}
+    </update>
+
+    <!-- 批量删除用户（逻辑删除） -->
+    <update id="deleteUsers" parameterType="java.util.List">
+        UPDATE user
+        SET del_flag = '1'
+        WHERE user_id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 分页查询用户 -->
+    <select id="selectUserByPage" parameterType="org.example.dto.PageRequestDTO" resultMap="UserResultMap">
+        SELECT
+            user_id, dept_id, user_name, nick_name, user_type, email,
+            phonenumber, sex, avatar, user_password, status, del_flag,
+            login_ip, login_date, create_by, create_time, update_by, update_time, remark
+        FROM user
+        WHERE del_flag = '0'
+        <if test="pageRequest.orderBy != null and pageRequest.orderBy != ''">
+            ORDER BY ${pageRequest.orderBy}
+            <if test="pageRequest.orderDir != null and pageRequest.orderDir != ''">
+                ${pageRequest.orderDir}
+            </if>
+        </if>
+        LIMIT #{pageRequest.pageSize} OFFSET #{pageRequest.pageNum}
+    </select>
+
+    <!-- 查询用户总数 -->
+    <select id="selectUserTotalCount" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM user
+        WHERE del_flag = '0'
+    </select>
+
+    <!-- 根据用户名列表查询已存在的用户名 -->
+    <select id="selectUsernames" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT DISTINCT user_name
+        FROM user
+        WHERE user_name IN
+        <foreach collection="usernames" item="username" open="(" close=")" separator=",">
+            #{username}
+        </foreach>
+        AND del_flag = '0'
+    </select>
+
+    <!-- 根据手机号列表查询已存在的手机号 -->
+    <select id="selectPhoneNumbers" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT DISTINCT phonenumber
+        FROM user
+        WHERE phonenumber IN
+        <foreach collection="phoneNumbers" item="phoneNumber" open="(" close=")" separator=",">
+            #{phoneNumber}
+        </foreach>
+        AND del_flag = '0'
+    </select>
+
+</mapper>
