@@ -25,7 +25,7 @@ public class MailController {
     private MailService mailService;
 
     /**
-     * 统一邮件发送接口 - 所有邮件发送都通过此接口
+     * 邮件发送
      * 使用 HttpServletRequest 判断请求类型并相应处理
      */
     @PostMapping("/send")
@@ -49,7 +49,6 @@ public class MailController {
 
                 // 获取附件
                 List<MultipartFile> attachments = new ArrayList<>();
-                // 直接使用Collections.list()将Enumeration转换为List
                 java.util.Enumeration<String> fileNamesEnum = (Enumeration<String>) multipartRequest.getFileNames();
                 List<String> fileNames = Collections.list(fileNamesEnum);
 
