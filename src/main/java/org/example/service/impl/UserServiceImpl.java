@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResultDTO<UserVO> getUserVOByPage(PageRequestDTO pageRequest) {
-        // 创建新的PageRequestDTO副本以避免修改原始对象
+        // 创建新的PageRequestDTO
         PageRequestDTO pageRequestCopy = new PageRequestDTO();
         pageRequestCopy.setPageNum((pageRequest.getPageNum() - 1) * pageRequest.getPageSize());
         pageRequestCopy.setPageSize(pageRequest.getPageSize());
@@ -222,9 +222,9 @@ public class UserServiceImpl implements UserService {
         List<User> users = userMapper.selectAllUser();
 
         // 限制导出数量为最多1000条
-        if (users.size() > 1000) {
-            users = users.subList(0, 1000);
-        }
+//        if (users.size() > 1000) {
+//            users = users.subList(0, 1000);
+//        }
 
         return UserMapperStruct.INSTANCE.toDTOList(users);
     }

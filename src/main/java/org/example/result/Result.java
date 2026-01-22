@@ -36,8 +36,8 @@ public class Result<T> {
     private Result(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
-        this.data = data;
         this.timestamp = System.currentTimeMillis();
+        this.data = data;
     }
 
     /**
