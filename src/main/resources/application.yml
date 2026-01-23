@@ -18,6 +18,15 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+#Minio配置
+minio:
+  endpoint: http://127.0.0.1:9090
+  access-key: root
+  secret-key: 12345678
+  bucket-name: demo
+  preview-expire: 3600 # 预览链接过期时间（秒，默认1小时）
+
+# 服务端口
 logging:
   level:
     org.example.mapper: debug

@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
+import org.example.utils.MinIOUtils;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,19 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.io.File;
+import javax.annotation.Resource;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/file")
 @Slf4j
 public class FileController {
-    private static final String FILE_DIRECTORY = "D:\\txhy\\AAAA\\";
+    @Resource
+    private MinIOUtils minIOUtils;
+
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
         try {
@@ -33,7 +30,7 @@ public class FileController {
             }
 
             // 检查文件大小 (限制为100MB)
-            long maxSize = 10L * 1024 * 1024 * 1024; // 100MB
+            long maxSize = 100L * 1024 * 1024; // 100MB
             if (file.getSize() > maxSize) {
                 return ResponseEntity.badRequest().body("上传失败: 文件大小不能超过100MB");
             }
@@ -46,7 +43,7 @@ public class FileController {
 
             String suffixName = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-            // 验证文件扩展名（防止恶意文件上传）
+            // 验证文件扩展名
             String[] allowedExtensions = {".jpg", ".jpeg", ".png", ".gif", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt", ".zip"};
             boolean isValidExtension = false;
             for (String ext : allowedExtensions) {
@@ -60,59 +57,42 @@ public class FileController {
                 return ResponseEntity.badRequest().body("上传失败: 不允许的文件类型: " + suffixName);
             }
 
-            // 生成唯一文件名
-            String fileName = UUID.randomUUID() + suffixName;
+            // 使用MinIO工具类上传文件
+            String fileUrl = minIOUtils.uploadFile(file);
 
-            // 确保目录存在
-            Path uploadDir = Paths.get(FILE_DIRECTORY);
-            Files.createDirectories(uploadDir);
-
-            // 创建目标文件路径
-            Path filePath = uploadDir.resolve(fileName);
-            File dest = filePath.toFile();
-
-            // 转移文件到目标位置
-            file.transferTo(dest);
-
-            // 返回成功信息
-            return ResponseEntity.ok("文件上传成功: " + dest.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("上传失败: 服务器内部错误");
+            // 返回成功信息，包括文件访问URL
+            return ResponseEntity.ok("文件上传成功: " + fileUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("上传失败: 处理过程中出现异常");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("上传失败: 处理过程中出现异常: " + e.getMessage());
         }
     }
 
-    @GetMapping("/download")
-    @ResponseBody
-    public ResponseEntity<Resource> download(@RequestParam("fileName") String fileName, HttpServletRequest request) {
+    @GetMapping("/download/{fileName}")
+    public void download(@PathVariable String fileName, HttpServletRequest request, javax.servlet.http.HttpServletResponse response) {
         try {
-            Path filePath = Paths.get(FILE_DIRECTORY).resolve(fileName).normalize();
-            if (!filePath.toFile().exists()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            Resource resource = new UrlResource(filePath.toUri());
-            if (!resource.exists()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            String contentType;
-            try {
-                contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-            } catch (Exception ex) {
-                contentType = "application/octet-stream";
-            }
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                    .body(resource);
+            // 从配置文件获取默认存储桶名称
+            String bucketName = minIOUtils.getDefaultBucketName();
+            // 使用MinIO工具类下载文件
+            minIOUtils.downloadFile(bucketName, fileName, response);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            log.error("下载文件失败: {}", e.getMessage());
+        }
+    }
+
+    @GetMapping("/preview/{fileName}")
+    public ResponseEntity<String> getPreviewUrl(@PathVariable String fileName) {
+        try {
+            // 获取bucket
+            String bucketName = minIOUtils.getDefaultBucketName();
+            // 获取预览链接
+            log.info("获取预览链接: {}", bucketName);
+            String previewUrl = minIOUtils.getPreviewUrl(bucketName, fileName);
+            return ResponseEntity.ok(previewUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("获取预览链接失败: " + e.getMessage());
         }
     }
 }
