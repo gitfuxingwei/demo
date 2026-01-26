@@ -15,6 +15,9 @@ import org.example.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -194,26 +197,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResultDTO<UserVO> getUserVOByPage(PageRequestDTO pageRequest) {
-        // 创建新的PageRequestDTO
-        PageRequestDTO pageRequestCopy = new PageRequestDTO();
-        pageRequestCopy.setPageNum((pageRequest.getPageNum() - 1) * pageRequest.getPageSize());
-        pageRequestCopy.setPageSize(pageRequest.getPageSize());
+        // 分页查询
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 
+        // 执行查询
+        List<User> users = userMapper.selectAllUser(); // 直接查询所有用户，PageHelper会自动应用分页
 
-        // 执行分页查询
-        List<User> users = userMapper.selectUserByPage(pageRequestCopy);
-
-        // 查询总记录数
-        Long total = userMapper.selectUserTotalCount();
+        // 获取分页信息
+        PageInfo<User> pageInfo = new PageInfo<>(users);
 
         // 转换为VO列表
         List<UserVO> userVOs = UserMapperStruct.INSTANCE.toVOList(users);
 
-        // 计算总页数
-        int totalPages = (int) Math.ceil((double) total / pageRequest.getPageSize());
-
         // 构建分页结果
-        return new PageResultDTO<>(userVOs, total, pageRequest.getPageNum(), pageRequest.getPageSize(), totalPages);
+        return new PageResultDTO<>(userVOs, pageInfo.getTotal(), pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.getPages());
     }
 
     @Override

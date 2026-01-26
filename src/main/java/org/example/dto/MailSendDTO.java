@@ -37,7 +37,7 @@ public class MailSendDTO {
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType != null ? contentType : "text/html"; // 如果传入null，默认仍为HTML
+        this.contentType = contentType != null ? contentType : "text/html";
     }
 
     public List<String> getToAddresses() {

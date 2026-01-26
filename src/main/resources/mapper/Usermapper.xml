@@ -189,29 +189,7 @@
     </update>
 
 
-    <!-- 分页查询用户 -->
-    <select id="selectUserByPage" parameterType="org.example.dto.PageRequestDTO" resultMap="UserResultMap">
-        SELECT
-            user_id, dept_id, user_name, nick_name, user_type, email,
-            phonenumber, sex, avatar, user_password, status, del_flag,
-            login_ip, login_date, create_by, create_time, update_by, update_time, remark
-        FROM user
-        WHERE del_flag = '0'
-        <if test="pageRequest.orderBy != null and pageRequest.orderBy != ''">
-            ORDER BY ${pageRequest.orderBy}
-            <if test="pageRequest.orderDir != null and pageRequest.orderDir != ''">
-                ${pageRequest.orderDir}
-            </if>
-        </if>
-        LIMIT #{pageRequest.pageSize} OFFSET #{pageRequest.pageNum}
-    </select>
 
-    <!-- 查询用户总数 -->
-    <select id="selectUserTotalCount" resultType="java.lang.Long">
-        SELECT COUNT(*)
-        FROM user
-        WHERE del_flag = '0'
-    </select>
 
     <!-- 根据用户名列表查询已存在的用户名 -->
     <select id="selectUsernames" parameterType="java.util.List" resultType="java.lang.String">

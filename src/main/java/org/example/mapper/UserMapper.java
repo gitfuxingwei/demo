@@ -45,15 +45,7 @@ public interface UserMapper {
     * 根据条件查询用户
      */
     List<User> selectUserByCondition(@Param("user") User user);
-    /*
-<<<<<<< HEAD
-    * 分页查询用户
-     */
-    List<User> selectUserByPage(@Param("pageRequest") PageRequestDTO pageRequest);
-    /*
-    * 查询用户总数
-     */
-    Long selectUserTotalCount();
+
     /*
     * 批量删除用户
      */
